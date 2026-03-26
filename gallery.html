@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery | LAPOK VENTURES COMPANY LIMITED</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, sans-serif;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      background:#f6f6f6;
+      color:#1a1a1a;
+    }
+
+    a{
+      text-decoration:none;
+    }
+
+    .container{
+      width:92%;
+      max-width:1200px;
+      margin:auto;
+    }
+
+    :root{
+      --red:#c61e17;
+      --dark:#111111;
+      --light:#ffffff;
+      --gray:#666666;
+    }
+
+    header{
+      background:#fff;
+      box-shadow:0 8px 25px rgba(0,0,0,0.06);
+      position:sticky;
+      top:0;
+      z-index:1000;
+    }
+
+    .navbar{
+      min-height:82px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
+
+    .logo-box{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+
+    .logo-box img{
+      width:60px;
+      height:60px;
+      object-fit:cover;
+      border-radius:14px;
+      background:#fff;
+      border:1px solid #eee;
+      box-shadow:0 5px 14px rgba(0,0,0,0.08);
+    }
+
+    .logo-text h1{
+      font-size:17px;
+      line-height:1.2;
+      color:var(--dark);
+    }
+
+    .logo-text p{
+      font-size:12px;
+      color:#777;
+      margin-top:3px;
+    }
+
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:24px;
+    }
+
+    .nav-links a{
+      color:var(--dark);
+      font-weight:700;
+      transition:0.3s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active{
+      color:var(--red);
+    }
+
+    .nav-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .menu-toggle{
+      display:none;
+      border:none;
+      background:var(--red);
+      color:#fff;
+      width:48px;
+      height:48px;
+      border-radius:12px;
+      font-size:24px;
+      cursor:pointer;
+    }
+
+    .mobile-menu{
+      display:none;
+      padding:0 0 20px;
+    }
+
+    .mobile-menu.active{
+      display:block;
+    }
+
+    .mobile-menu a{
+      display:block;
+      background:#f5f5f5;
+      color:#222;
+      padding:14px 16px;
+      margin-bottom:10px;
+      border-radius:12px;
+      font-weight:700;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:14px 24px;
+      border-radius:999px;
+      font-weight:700;
+      transition:0.3s;
+    }
+
+    .btn-red{
+      background:var(--red);
+      color:#fff;
+      box-shadow:0 10px 20px rgba(198,30,23,0.22);
+    }
+
+    .btn-red:hover{
+      background:#ab1712;
+      transform:translateY(-2px);
+    }
+
+    .btn-outline{
+      border:2px solid var(--dark);
+      color:var(--dark);
+      background:#fff;
+    }
+
+    .btn-outline:hover{
+      background:var(--dark);
+      color:#fff;
+    }
+
+    .page-hero{
+      position:relative;
+      min-height:55vh;
+      display:flex;
+      align-items:center;
+      background:url("coke-bg.jpg") center/cover no-repeat;
+    }
+
+    .page-hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg, rgba(198,30,23,0.82), rgba(0,0,0,0.68));
+    }
+
+    .page-hero-content{
+      position:relative;
+      z-index:2;
+      text-align:center;
+      color:#fff;
+      padding:90px 0;
+    }
+
+    .page-hero-content h2{
+      font-size:52px;
+      margin-bottom:16px;
+      font-weight:900;
+    }
+
+    .page-hero-content p{
+      max-width:760px;
+      margin:auto;
+      line-height:1.8;
+      font-size:18px;
+      color:rgba(255,255,255,0.92);
+    }
+
+    section{
+      padding:85px 0;
+    }
+
+    .section-title{
+      text-align:center;
+      margin-bottom:40px;
+    }
+
+    .section-title h3{
+      font-size:38px;
+      color:var(--dark);
+      margin-bottom:10px;
+    }
+
+    .section-title p{
+      color:var(--gray);
+      font-size:16px;
+      max-width:720px;
+      margin:auto;
+      line-height:1.7;
+    }
+
+    .gallery-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:24px;
+    }
+
+    .gallery-card{
+      background:#fff;
+      border-radius:24px;
+      overflow:hidden;
+      box-shadow:0 10px 28px rgba(0,0,0,0.06);
+      transition:0.3s ease;
+    }
+
+    .gallery-card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 18px 35px rgba(0,0,0,0.13);
+    }
+
+    .gallery-card img{
+      width:100%;
+      height:280px;
+      object-fit:cover;
+      display:block;
+      transition:0.35s ease;
+    }
+
+    .gallery-card:hover img{
+      transform:scale(1.06);
+    }
+
+    .gallery-caption{
+      padding:18px 20px 22px;
+    }
+
+    .gallery-caption h4{
+      font-size:21px;
+      color:var(--dark);
+      margin-bottom:8px;
+    }
+
+    .gallery-caption p{
+      color:#666;
+      line-height:1.7;
+      font-size:15px;
+    }
+
+    .cta{
+      background:linear-gradient(135deg,#111,#262626);
+      color:#fff;
+      border-radius:32px;
+      padding:45px 32px;
+      text-align:center;
+      box-shadow:0 15px 30px rgba(0,0,0,0.14);
+    }
+
+    .cta h3{
+      font-size:36px;
+      margin-bottom:12px;
+    }
+
+    .cta p{
+      color:#ddd;
+      max-width:760px;
+      margin:0 auto 26px;
+      line-height:1.8;
+    }
+
+    .hero-buttons{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+
+    footer{
+      background:#0f0f0f;
+      color:#fff;
+      margin-top:70px;
+    }
+
+    .footer-container{
+      width:92%;
+      max-width:1200px;
+      margin:auto;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:34px;
+      padding:55px 0 30px;
+    }
+
+    .footer-brand h2{
+      color:var(--red);
+      margin-bottom:10px;
+      font-size:28px;
+    }
+
+    .footer-brand p,
+    .footer-contact p{
+      color:#ccc;
+      line-height:1.8;
+    }
+
+    .footer-links h4,
+    .footer-contact h4{
+      margin-bottom:14px;
+      font-size:18px;
+    }
+
+    .footer-links a{
+      display:block;
+      color:#ccc;
+      margin-bottom:10px;
+      transition:0.3s;
+    }
+
+    .footer-links a:hover{
+      color:var(--red);
+    }
+
+    .footer-bottom{
+      text-align:center;
+      border-top:1px solid #2b2b2b;
+      color:#aaa;
+      padding:18px 0;
+      font-size:14px;
+    }
+
+    .whatsapp-float{
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 1200;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #25D366;
+      color: #fff;
+      padding: 14px 18px;
+      border-radius: 999px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.22);
+      font-weight: 700;
+      font-size: 15px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .whatsapp-float svg{
+      width:24px;
+      height:24px;
+      display:block;
+    }
+
+    .whatsapp-float:hover{
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 16px 28px rgba(0,0,0,0.26);
+    }
+
+    @media (max-width:1024px){
+      .gallery-grid,
+      .footer-container{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .page-hero-content h2{
+        font-size:42px;
+      }
+    }
+
+    @media (max-width:768px){
+      .nav-links,
+      .nav-actions{
+        display:none;
+      }
+
+      .menu-toggle{
+        display:inline-block;
+      }
+
+      .gallery-grid,
+      .footer-container{
+        grid-template-columns:1fr;
+      }
+
+      .page-hero-content h2{
+        font-size:32px;
+      }
+
+      .page-hero-content p{
+        font-size:16px;
+      }
+
+      .section-title h3,
+      .cta h3{
+        font-size:30px;
+      }
+
+      .logo-text h1{
+        font-size:14px;
+      }
+
+      .whatsapp-float{
+        right:16px;
+        bottom:16px;
+        padding:13px 16px;
+      }
+
+      .whatsapp-float span{
+        display:none;
+      }
+
+      .whatsapp-float svg{
+        width:26px;
+        height:26px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="navbar">
+        <div class="logo-box">
+          <img src="logo.png" alt="Lapok Ventures Logo">
+          <div class="logo-text">
+            <h1><b>LAPOK VENTURES COMPANY LIMITED</b></h1>
+            <p>Bulk Coca-Cola Products Distributor</p>
+          </div>
+        </div>
+
+        <nav class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="index.html#about">About</a>
+          <a href="index.html#products">Products</a>
+          <a href="gallery.html" class="active">Gallery</a>
+          <a href="index.html#orders">Bulk Orders</a>
+          <a href="index.html#contact">Contact</a>
+        </nav>
+
+        <div class="nav-actions">
+          <a href="https://wa.me/256793831030" class="btn btn-red">WhatsApp</a>
+          <a href="tel:+256782711030" class="btn btn-outline">Call Now</a>
+        </div>
+
+        <button class="menu-toggle" id="menuToggle">☰</button>
+      </div>
+
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#products">Products</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="index.html#orders">Bulk Orders</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="https://wa.me/256793831030">Order on WhatsApp</a>
+        <a href="tel:+256782711030">Call Now</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero-content">
+        <h2>Our Product Gallery</h2>
+        <p>
+          Explore our wholesale beverage collection, stock presentation, crate supply,
+          boxed products and ready-to-order drink lines for serious bulk buyers.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-title">
+        <h3>Visual Showcase</h3>
+        <p>
+          A clean separate gallery page to display available products and make the brand
+          look more premium and professional.
+        </p>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="gallery-card">
+          <img src="images/1.jpg" alt="Coca-Cola Original bottles">
+          <div class="gallery-caption">
+            <h4>Coca-Cola Original</h4>
+            <p>Premium refreshment stock for shops, supermarkets, restaurants and wholesale buyers.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card">
+          <img src="images/2.jpeg" alt="Minute Maid wholesale stock">
+          <div class="gallery-caption">
+            <h4>Minute Maid Range</h4>
+            <p>Quality juice options supplied in larger quantities for business and event orders.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card">
+          <img src="images/3.jpeg" alt="Fanta Orange cartons">
+          <div class="gallery-caption">
+            <h4>Fanta Orange</h4>
+            <p>Bright and popular soft drink line suitable for resale and mixed wholesale orders.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card">
+          <img src="images/4.jpeg" alt="Coca-Cola warehouse stock">
+          <div class="gallery-caption">
+            <h4>Warehouse Stock</h4>
+            <p>Organized bulk stock prepared for resellers, shops, institutions and serious buyers.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card">
+          <img src="images/5.jpeg" alt="Rwenzori water gallons">
+          <div class="gallery-caption">
+            <h4>Rwenzori Water Gallons</h4>
+            <p>Large-capacity hydration supply for offices, schools, hotels and hospitality spaces.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card">
+          <img src="images/6.jpeg" alt="Minute Maid products">
+          <div class="gallery-caption">
+            <h4>Juice Collection</h4>
+            <p>Fresh product category choices for customers who need more than carbonated drinks.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card">
+          <img src="images/7.jpeg" alt="Coca-Cola crates for distribution">
+          <div class="gallery-caption">
+            <h4>Crates & Distribution</h4>
+            <p>Reliable crate-based stock prepared for smooth handling and wholesale delivery.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card">
+          <img src="images/8.jpeg" alt="Boxed water stock">
+          <div class="gallery-caption">
+            <h4>Boxed Water Stock</h4>
+            <p>Neat and practical packaged stock for distribution, storage and business supply.</p>
+          </div>
+        </div>
+
+        <div class="gallery-card">
+          <img src="coke-bg.jpg" alt="Bulk beverage supply">
+          <div class="gallery-caption">
+            <h4>Bulk Supply Ready</h4>
+            <p>Professional beverage supply for supermarkets, events, institutions and resellers.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="cta">
+        <h3>Need a bulk order?</h3>
+        <p>
+          Contact LAPOK VENTURES COMPANY LIMITED directly through WhatsApp or phone call
+          for fast response and professional wholesale service.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="https://wa.me/256793831030" class="btn btn-red">WhatsApp Us</a>
+          <a href="tel:+256782711030" class="btn btn-outline">Call Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand">
+        <h2>LAPOK VENTURES</h2>
+        <p>Bulk Coca-Cola Products Distributor for wholesale buyers, retailers, events and resellers.</p>
+      </div>
+
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <a href="index.html">Home</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#products">Products</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="index.html#orders">Bulk Orders</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <p>📞 +256 (0) 782 711 030</p>
+        <p>💬 WhatsApp Orders Available</p>
+        <p>📍 Country Wide</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 LAPOK VENTURES COMPANY LIMITED. All rights reserved.
+    </div>
+  </footer>
+
+  <a href="https://wa.me/256793831030?text=Hello%20LAPOK%20VENTURES,%20I%20want%20to%20place%20a%20bulk%20order." class="whatsapp-float" aria-label="Chat on WhatsApp" target="_blank">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <path fill="currentColor" d="M19.11 17.2c-.27-.13-1.6-.79-1.85-.88-.25-.09-.43-.13-.61.13-.18.27-.7.88-.86 1.06-.16.18-.31.2-.58.07-.27-.13-1.12-.41-2.13-1.3-.79-.7-1.33-1.56-1.49-1.82-.16-.27-.02-.41.12-.54.12-.12.27-.31.4-.47.13-.16.18-.27.27-.45.09-.18.04-.34-.02-.47-.07-.13-.61-1.47-.83-2.01-.22-.53-.45-.45-.61-.46h-.52c-.18 0-.47.07-.72.34s-.95.93-.95 2.27.97 2.64 1.11 2.82c.13.18 1.9 2.9 4.6 4.07.64.27 1.13.43 1.52.55.64.2 1.22.17 1.68.1.51-.08 1.6-.65 1.82-1.27.22-.62.22-1.15.16-1.27-.07-.11-.25-.18-.52-.31z"/>
+      <path fill="currentColor" d="M16.02 3.2c-6.95 0-12.6 5.64-12.6 12.57 0 2.22.58 4.38 1.68 6.29L3.2 28.8l6.95-1.82a12.63 12.63 0 0 0 5.87 1.49h.01c6.94 0 12.59-5.64 12.59-12.58 0-3.36-1.31-6.52-3.69-8.89A12.49 12.49 0 0 0 16.02 3.2zm0 22.99h-.01a10.5 10.5 0 0 1-5.35-1.46l-.38-.22-4.12 1.08 1.1-4.01-.25-.41a10.41 10.41 0 0 1-1.6-5.55c0-5.75 4.7-10.43 10.47-10.43 2.79 0 5.4 1.08 7.37 3.04a10.35 10.35 0 0 1 3.06 7.39c0 5.75-4.7 10.43-10.46 10.43z"/>
+    </svg>
+    <span>WhatsApp</span>
+  </a>
+
+  <script>
+    const menuToggle = document.getElementById("menuToggle");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    menuToggle.addEventListener("click", () => {
+      mobileMenu.classList.toggle("active");
+      menuToggle.textContent = mobileMenu.classList.contains("active") ? "✕" : "☰";
+    });
+
+    document.querySelectorAll(".mobile-menu a").forEach(link => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.remove("active");
+        menuToggle.textContent = "☰";
+      });
+    });
+  </script>
+</body>
+</html>
